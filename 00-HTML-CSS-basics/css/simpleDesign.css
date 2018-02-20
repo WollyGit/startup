@@ -35,13 +35,13 @@ body{
   border-radius: 20px;
   position:relative;
 }
-#botsection{
-  width: 95%;
-  background-color: #999999;
-  height: 90px;
-  margin-top: 2%;
-  margin-bottom: 2%;
-
+#section{
+  width: 60%;
+  background: #666666;
+  height: 650px;
+  margin-right: 20%;
+  margin-top: -656px;
+  float:right;
 }
 #topsection{
   width: 95%;
@@ -54,13 +54,13 @@ body{
     height: 340px;
     margin-top: 2.5%;
 }
-#section{
-  width: 60%;
-  background: #666666;
-  height: 650px;
-  margin-right: 20%;
-  margin-top: -656px;
-  float:right;
+#botsection{
+  width: 95%;
+  background-color: #999999;
+  height: 90px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+
 }
 #lateralIzq{
   margin-top: 20px;
