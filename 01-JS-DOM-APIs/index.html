@@ -2,37 +2,32 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Show waths hide</title>
+    <link rel="stylesheet" href="css/normalize.css" type="text/css">
+    <script src="js/getResponse.js"></script>
     <style>
        .section{
-          text-align: center;
           margin-top: 20px;
-          background-color: black;
+          background-color: grey;
           color:white;
-          width: 450px;
-          height: 20px;
-          margin-left: 25%;
+          width: 1000px;
+          height: 350px;
+          margin-left: 5%;
        }
-       #oculto{
-            visibility: hidden;
+
+       #respuesta{
+          font-family: sans-serif;
+          text-align: center;
+          width: 1000px;
+          height: 350px;
        }
     </style>
   </head>
-  <body onload="showText()">
+  <body>
       <div class="section">
-          this is some random content.<br><br>
-          <button type="button" name="alert" onclick="showAlert()">No toque este boton</button><br><br>
-      </div><br><br>
-      <div class="section" id="oculto">
-          Hello World
+            <textarea type="textarea" id="respuesta" name="respuesta" value="Aqui se mostrara la respuesta"></textarea><br><br>
+            <button type="button" name="alert" onclick="getResponse('http://api.icndb.com/jokes/random')">Get Response</button><br><br>
       </div>
-      <script type="text/javascript">
-          function showAlert(){
-            alert("BOOOM!!! La curiosidad mato al gato");
-          }
-          function showText(){
-                document.getElementById("oculto").style.visibility="visible";
-          }
-      </script>
   </body>
 </html>
