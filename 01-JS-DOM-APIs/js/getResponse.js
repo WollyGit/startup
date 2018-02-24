@@ -23,3 +23,29 @@ function getResponse(config){
                                   req.send();
                               });
   }
+
+
+  function getResponseOnList(config){
+              // Return a new promise.
+              return new Promise(function(resolve, reject) {
+                                  var req = new XMLHttpRequest();
+                                  req.open('GET', config, true);
+                                  req.onload = function() {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                    // Adding the response on list
+                                                          var ul = document.getElementById("lista");
+                                                          var li = document.createElement("li");
+                                                          li.appendChild(document.createTextNode(this.responseText));
+                                                          ul.appendChild(li);
+                                                  }
+                                            else {
+                                                    // Otherwise reject with the status text
+                                                    reject(Error(req.statusText));
+                                                  }
+                                    };
+                                    req.onerror = function(){
+                                            reject(Error(req.statusText));
+                                    };
+                                    req.send();
+                                });
+    }
