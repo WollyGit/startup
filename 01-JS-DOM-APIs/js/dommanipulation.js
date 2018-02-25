@@ -10,6 +10,7 @@ function createTableUsingDOM(matrix){
     }
     table.appendChild(tr); // After the row is full charged add the row to table object
   }
+  table.setAttribute("border","1px");
   return table;
 }
 
