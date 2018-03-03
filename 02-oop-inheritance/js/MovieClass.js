@@ -1,5 +1,3 @@
-
-
 class Movie
 {
   constructor(title,year,duracion){
@@ -10,7 +8,7 @@ class Movie
   }
 
   addCast(actorslist){
-    for (let i=0; i<actors.length;i++){
+    for (let i=0; i<actorslist.length;i++){
             this.actors.push(actorslist[i])
           }
   }
