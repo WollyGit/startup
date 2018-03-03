@@ -17,12 +17,14 @@ function createTableUsingDOM(matrix){
 function callingMatrix(){
     //This function was made to testing with 3x3 matrix but the principal function works with any size
     var matrix = [];//create matrix
-    let extra=1; // variable to set a different value on each position of matrix
     for(var i=0; i<3; i++) { //for used to build the matrix
         matrix[i] = [];
         for(var j=0; j<3; j++) {
-            matrix[i][j] = extra;
-            extra++;
+            let value = prompt("Add some value for 3x3 Matrix");
+            while (!value){
+              value = prompt("Please insert some value for the matrix");
+            }
+            matrix[i][j] = value;
           }
         }
     var table = createTableUsingDOM(matrix); // call to principal function where a created table using DOM is returned

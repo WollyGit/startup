@@ -4,9 +4,11 @@ function getResponse(config){
                                 var req = new XMLHttpRequest();
                                 req.open('GET', config, true);
                                 req.onload = function() {
+                                                  var data=this.responseText;
+                                                  var jsonResponse = JSON.parse(data);
                                                   if (this.readyState == 4 && this.status == 200) {
                                                   // Copy the response on textarea
-                                                  document.getElementById("respuesta").value = document.getElementById("respuesta").value + "\n" + this.responseText;
+                                                  document.getElementById("respuesta").value = document.getElementById("respuesta").value + "\n" + jsonResponse["value"].joke;
                                                 }
                                           else {
                                                   // Otherwise reject with the status text and set section area background red

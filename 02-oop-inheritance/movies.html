@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Movies | Topic 2 Bootcamp</title>
+    <style>
+            body{
+              background-image: url("css/joker.jpg");
+              max-height: 1000px;
+            }
+            h1{
+              color: white !important;
+              margin-left: 40%;
+            }
+            td{
+              height: 50px;
+              border:3px solid black;
+              }
+            .buttons_option{
+                border-right: 1px solid grey;
+            }
+            .td_options{
+              width: 215px;
+              padding: 0 0 0 0;
+            }
+            .td_options_text{
+              text-align: center;
+            }
+            .td_tabla{
+              padding: 2px 25px 2px 25px;
+              width: 450px;
+              text-align: center;
+              font-family: sans-serif;
+            }
+            .movie_row:hover{
+              opacity: 1.2;
+              background-color:white;
+            }
+            #movie_table{
+            overflow-y: scroll;
+            max-height: 60%;
+            background-color: white;
+            border: 3px solid black;
+            }
+
+            #body_table{
+              background-color:  #F9F9F9;
+            }
+
+            #movie_form{
+              margin-left: 20px;
+              margin-top: 20px;
+              color:white;
+            }
+            /* Popup container */
+            .popup {
+                position: relative;
+                display: inline-block;
+                cursor: pointer;
+              }
+
+              /* The actual popup (appears on top) */
+            .popup .popuptext {
+                  visibility: hidden;
+                  width: 160px;
+                  background-color: #555;
+                  color: #fff;
+                  text-align: center;
+                  border-radius: 6px;
+                  padding: 8px 0;
+                  position: absolute;
+                  z-index: 1;
+                  bottom: 125%;
+                  left: 50%;
+                  margin-left: -80px;
+                }
+
+                /* Popup arrow */
+            .popup .popuptext::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: #555 transparent transparent transparent;
+                  }
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+    </style>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <h1>MOVIE SPACE</h1>
+    <form name="newMovie" id="movie_form" method="get">
+      Title:    <input type="text" name="title" placeholder="Title" required><br><br>
+      Year:     <input type="number" name="year" placeholder="Year" required><br><br>
+      Duration: <input type="number" name="hora" placeholder="hr" required>
+                <input type="number" name="min" placeholder="min" required><br><br>
+                <input type="button" value="Add Movie" onclick="addMovie()"/>
+                <button type="reset">Reset</button>
+    </form><br><br>
+    <div class="container">
+       <table id="movie_table" border="1px">
+            <thead>
+              <td class="td_tabla">Title</td>
+              <td class="td_tabla">Year</td>
+              <td class="td_tabla">Duration</td>
+              <td class="td_options td_options_text">Options</td>
+            </thead>
+            <tbody id="body_table">
+            </tbody>
+       </table>
+    </div>
+    <script type="text/javascript">
+
+    class Collection{
+        constructor(){
+           this.movies_collection=[];
+        }
+
+        addMovieToCollection(movie){
+          this.movies_collection.push(movie);
+        }
+
+        deleteMovie(movie){
+          for (let i=0;i<this.movies_collection.length;i++){
+              if (this.movies_collection[i] === movie)
+                  this.movies_collection.splice(1,1);
+          }
+        }
+
+        getMovie(title){
+          for (let i=0;i<this.movies_collection.length;i++){
+             if (this.movies_collection[i].getTitle() === title){
+                return this.movies_collection[i]
+             }
+          }
+        }
+
+    }
+
+
+    var collection = new Collection();
+    //---------------------------------------------------------------------------------- CLASES
+                class Movie
+                {
+                  constructor(title,year,duracion){
+                    this.title = title;
+                    this.year = year;
+                    this.duration = duracion;
+                    this.actors = [];
+                  }
+
+                  addCast(actorslist){
+                    for (let i=0; i<actorslist.length;i++){
+                            this.actors.push(actorslist[i])
+                          }
+                  }
+
+                  getCast(){
+                     return this.actors;
+                  }
+
+                  getTitle(){
+                    return this.title;
+                  }
+
+                  getYear(){
+                    return this.year;
+                  }
+
+                  getDuration(){
+                    return this.duration;
+                  }
+
+                  play(){
+                    console.log("Play Movie");
+                  }
+
+                  pause(){
+                    console.log("Pause Movie");
+                  }
+
+                  resume(){
+                    console.log("Resume Movie");
+                  }
+                }
+
+                class Logger{
+                  constructor(id,subject){//Subject param in this case will correspond to "playbutton"'s id
+                    this.id=id;
+                    this.subject = subject;
+                  }
+
+                  log(info){
+                    console.log(this.subject + " has been pushed!");
+                  }
+                }
+
+                let isFunction = function(obj) {
+                    return typeof obj == 'function' || false;
+                };
+
+                class EventEmitter {
+
+                  constructor() {
+                    this.listeners = new Map();
+                  }
+                  on(eventName, callback) {
+                    this.listeners.has(eventName) || this.listeners.set(eventName, []);
+                    this.listeners.get(eventName).push(callback);
+                  }
+
+                  off(eventName, callback) {
+                      let listeners = this.listeners.get(eventName),
+                          index;
+
+                      if (listeners && listeners.length) {
+                          index = listeners.reduce((i, listener, index) => {
+                              return (isFunction(listener) && listener === callback) ?
+                                  i = index :
+                                  i;
+                          }, -1);
+
+                          if (index > -1) {
+                              listeners.splice(index, 1);
+                              this.listeners.set(eventName, listeners);
+                              return true;
+                          }
+                      }
+                      return false;
+                  }
+                  emit(eventName, ...args) {
+                      let listeners = this.listeners.get(eventName);
+
+                      if (listeners && listeners.length) {
+                          listeners.forEach((listener) => {
+                              listener(...args);
+                          });
+                          return true;
+                      }
+                      return false;
+                  }
+                }
+
+                class Actor{
+
+                  constructor(nombre, edad){
+                      this.name=nombre;
+                      this.age=edad;
+                  }
+
+                  getName(){
+                    return this.name;
+                  }
+
+                  getAge(){
+                    return this.age;
+                  }
+
+                  changeName(newname){
+                    this.name=newname;
+                  }
+
+                  changeAge(newage){
+                    this.age=newage;
+                  }
+                }
+
+                function createActorButton(movie){
+                  //function used to create button to add actor at movie. First the element button is created.
+                  const addactorbutton=document.createElement("input");
+                  //Some propoerties are added to button like image, width and height.
+                  addactorbutton.type="image";
+                  addactorbutton.src="css/plusactor.jpg";
+                  addactorbutton.style.width="38px";
+                  addactorbutton.style.height="38px";
+                  //When the button is clicked
+                  addactorbutton.onclick= function(){let result_confirm = true;  //result value will be false when the user finish the load of actors
+                                                     let actors = [];
+                                                     while (result_confirm || (actorage === "" && actorage !== false)){
+                                                          let actorname = prompt("Actress/Actor Name: "); //The user insert using prompt command the actor's name.
+                                                          while (actorname === "" && actorname !== false){ //if the insert is null. He will be forced to insert some name. This should be refactored.
+                                                                actorname = prompt("You should insert a name");
+                                                              }
+                                                         if (!actorname){
+                                                              var actorage = false;
+                                                         }
+                                                         else{
+                                                              var actorage = "true";
+                                                         }
+                                                        if (actorage == "true"){
+                                                              actorage = prompt("Her/His Age is: ");//Same method with the actor's age.
+                                                              while (actorage !== false && actorage == ""){
+                                                                actorage = prompt("You should insert her/his age");
+                                                              }
+                                                            }
+                                                        if (actorname == null || actorage == null){
+                                                              result_confirm=false;
+                                                            }
+                                                        else{
+                                                            var actor = new Actor(actorname,actorage);//the object actor is created
+                                                            actors.push(actor);//this variable will containe the actors created by the user
+                                                            result_confirm = confirm("You wish add another actor?");
+                                                          }
+
+                                                        }
+                                                      if (actors){
+                                                        movie.addCast(actors);//When the load of actors is finished the cast is added to the movie.
+                                                        alert("se agregaron los atores");
+                                                      }
+                                                      };
+                   addactorbutton.setAttribute("class","buttons_option");//Setting style for button
+                   return addactorbutton;//Return the button created
+                }
+
+                function createPauseButton(movie){
+                  //function used to create the button to pause the movie. First the element is created
+                  const pausebutton=document.createElement("input");
+                  //setting some propoerties
+                  pausebutton.type="image";
+                  pausebutton.src="css/pause.jpg";
+                  pausebutton.style.width="38px";
+                  pausebutton.style.height="38px";
+                  pausebutton.onclick= function(){
+                                            movie.pause(); // When the button be clicked the movie will pause
+                                          }
+                  return pausebutton; //The button is returned
+                }
+
+                function createPlayButton(movie){
+                  //function used to create the button to play the movie. First the element is created.
+                  const playbutton=document.createElement("input");
+                  //Setting some properties
+                  playbutton.type="image";
+                  playbutton.src="css/play.jpg";
+                  playbutton.style.width="38px";
+                  playbutton.style.height="38px";
+                  playbutton.alt="Play button"; //This alt name will be used when the LoggerClass "observe" this events
+                  //let observable = new EventEmitter();
+                  //let observed = new LoggerClass(playbutton.alt,observable);
+                  //observable.emit("change",observed.log("change"));
+                  playbutton.onclick=function(){
+                                        movie.play(); //When the button be clicked the movie will play
+                                      }
+                  playbutton.setAttribute("class","buttons_option"); //Setting class
+                  return playbutton; //The button is returned
+                }
+
+                function createSeeButton(movie){
+                const seeactorsbutton=document.createElement("input");
+                seeactorsbutton.type="image";
+                seeactorsbutton.src="css/see.png";
+                seeactorsbutton.style.width="38px";
+                seeactorsbutton.style.height="38px";
+                seeactorsbutton.setAttribute("id",movie.getTitle());
+                seeactorsbutton.setAttribute("class","buttons_option");
+                seeactorsbutton.onclick=function(){
+                                          // When the user clicks on <div>, open the popup
+                                          const movie_selected = collection.getMovie(seeactorsbutton.id);
+                                          let arrayactors = movie_selected.getCast();
+                                          var actors_names="";
+                                          arrayactors.forEach((actor) => {actors_names = actors_names + " " + actor.getName() + "\n"});
+                                          alert(actors_names);
+                                      }
+                  return seeactorsbutton;
+                }
+
+                function validate(anio){
+
+                    if (anio<1985 || anio>(new Date()).getFullYear()){
+                            return false;}
+                    return true;
+                }
+
+
+                function addMovie(){
+                    //Take the value of variables from form
+                    let duracion = newMovie.elements["hora"].value+" : "+newMovie.elements["min"].value;
+                    let anio = newMovie.elements["year"].value;
+                    let tit= newMovie.elements["title"].value;
+                    let validateYear = validate(anio);
+                    if (validateYear){
+                      //Create the movie object
+                      const movie = new Movie(tit,anio,duracion);
+                      collection.addMovieToCollection(movie);
+                      //Create the trow. This row will append to the table of body section
+                      let trow = document.createElement("TR");
+                      //Create the tdata. These td will contain the title, the year and the duration
+                      const td1 = document.createElement("TD");
+                      const td2 = document.createElement("TD");
+                      const td3 = document.createElement("TD");
+                      //Get the title from the object to test the response and then the nodeText is created to be append at row later. Same with year and duration
+                      tit=movie.getTitle();
+                      tit=document.createTextNode(tit);
+                      anio=movie.getYear();
+                      anio=document.createTextNode(anio);
+                      duracion=movie.getDuration();
+                      duracion=document.createTextNode(duracion);
+                      //Append these data on each TD
+                      td1.appendChild(tit);
+                      td2.appendChild(anio);
+                      td3.appendChild(duracion);
+                      //Setting style to each TD
+                      td2.setAttribute("class","td_tabla");
+                      td1.setAttribute("class","td_tabla");
+                      td3.setAttribute("class","td_tabla");
+                      //Adding TD at TROW
+                      trow.appendChild(td1);
+                      trow.appendChild(td2);
+                      trow.appendChild(td3);
+                      //Setting style to TROW
+                      trow.setAttribute("class","movie_row");
+                      trow.setAttribute("id",tit);
+                      //tdbutton is the fourth td on the row. Here gonna be the options to pause, play and add actors to the movie.
+                      const tdbutton= document.createElement("TD");
+                      tdbutton.setAttribute("class","td_options");
+                      tdbutton.appendChild(createActorButton(movie));//call to function to create the button used to add actors
+                      tdbutton.appendChild(createSeeButton(movie));//call to function to create the button used to see the actors
+                      tdbutton.appendChild(createPlayButton(movie));//call to function to create the button used to play te movie
+                      tdbutton.appendChild(createPauseButton(movie));//call to function to create the button used to pause the movie
+                      trow.appendChild(tdbutton);
+                      let tableRef = document.getElementById("movie_table").getElementsByTagName("tbody")[0];
+                      tableRef.appendChild(trow);
+                      document.getElementById("movie_form").reset();//Reset the form
+                    }
+                    else {
+                       alert("El anio debe estar entre 1985 y "+(new Date()).getFullYear());
+                    }
+
+                    }
+
+    </script>
+  </body>
+</html>
